@@ -1,0 +1,27 @@
+# Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv-1/
+.env
+
+# IDE folders
+.vscode/
+*.code-workspace
+
+# Streamlit temporary files
+.streamlit/
+
+# Data and outputs (optional, if large files)
+data/
+images/
+*.csv
+*.pkl
+*.h5
+
+# OS generated files
+.DS_Store
+Thumbs.db

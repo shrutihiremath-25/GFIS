@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GFIS – GreenFuel Intelligence System- AI Driven Infrastructure Planning & Optimization Framework</title>
+
+    <style>
+        /* ===============================
+        GLOBAL STYLES
+        ==============================*/
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #071b2b, #0d2d3a, #0b3d2e);
+            color: white;
+        }
+        
+        section {
+            padding: 100px 10%;
+        }
+        
+        h1,
+        h2,
+        h3 {
+            font-weight: 600;
+        }
+        
+        p {
+            opacity: 0.85;
+            line-height: 1.6;
+        }
+        
+        button {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(90deg, #00c853, #00e676);
+            color: #000;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 255, 150, 0.4);
+        }
+        
+        .problem-card,
+        .solution-card,
+        .glass-card {
+            text-align: center;
+        }
+        
+        .problem-icon,
+        .solution-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #00e676, #00c853);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            transition: 0.3s ease;
+        }
+        
+        .problem-card:hover .problem-icon,
+        .solution-card:hover .solution-icon {
+            transform: scale(1.2);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(15px);
+            transition: 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 255, 150, 0.3);
+        }
+        
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        @media(max-width: 1000px) {
+            .grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .grid-3 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media(max-width: 768px) {
+            nav {
+                flex-direction: column;
+            }
+            .grid-4,
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 32px;
+            }
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* ===============================
+        MOVING ANNOUNCEMENT BAR
+        ==============================*/
+        
+        .announcement {
+            width: 100%;
+            background: #0b3d2e;
+            overflow: hidden;
+            white-space: nowrap;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .announcement p {
+            display: inline-block;
+            padding: 12px 0;
+            animation: marquee 20s linear infinite;
+            font-weight: 500;
+        }
+        
+        @keyframes marquee {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+        /* ===============================
+        NAVBAR
+        ==============================*/
+        
+        nav {
+            position: fixed;
+            top: 45px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 10%;
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 999;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            position: relative;
+            font-weight: 500;
+        }
+        
+        nav a::after {
+            content: "";
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: #00e676;
+            transition: 0.3s;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        nav div a:hover {
+            color: #00ff99;
+        }
+        /* ===============================
+        HERO SECTION
+        ==============================*/
+        
+        .hero {
+            position: relative;
+            height: 100vh;
+            background: url("images/image.png") center center / cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+        }
+        
+        .hero h1,
+        .hero p,
+        .hero button {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .hero button {
+            padding: 12px 28px;
+            font-size: 16px;
+            background: #00c853;
+            border: none;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+        
+        .hero button:hover {
+            background: #00e676;
+        }
+        /* ===============================
+        DASHBOARD IMAGES
+        ==============================*/
+        
+        .dashboard-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .dashboard-frame {
+            width: 100%;
+            height: 250px;
+            border: none;
+            border-radius: 15px;
+            background: #000;
+            margin-top: 10px;
+        }
+        /* ================================
+   COMMAND CENTRE
+=================================*/
+        
+        #command {
+            padding: 80px 10%;
+            background: #0f172a;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 32px;
+            color: #00e676;
+        }
+        /* Container */
+        
+        .dashboard-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        /* Each row */
+        
+        .dashboard-row {
+            display: flex;
+            gap: 40px;
+        }
+        /* Rectangular Boxes */
+        
+        .dashboard-box {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 12px;
+            backdrop-filter: blur(12px);
+            text-align: center;
+            transition: 0.3s ease;
+        }
+        
+        .dashboard-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0, 230, 118, 0.3);
+        }
+        /* Image */
+        
+        .dashboard-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 0px 0;
+        }
+        /* Button */
+        
+        .dashboard-box button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #00e676, #00c853);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s ease;
+        }
+        
+        .dashboard-box button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 230, 118, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ANNOUNCEMENT BAR -->
+    <div class="announcement">
+        <p>🌿 GFIS – Green Fuel Intelligence System | AI-Driven Infrastructure Planning and Optimization Framework</p>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div><strong><h1><b>GFIS</b></h1></strong></div>
+        <div>
+            <a href="#home">Home</a>
+            <a href="#overview">System Overview</a>
+            <a href="#command">Command Centre</a>
+            <a href="#impact">Impact & Vision</a>
+            <a href="#team">Contact us</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <h1>GreenFuel Intelligence System (GFIS)</h1>
+        <p>AI-Driven Infrastructure Planning and Optimization Framework</p>
+        <button onclick="location.href='#overview'">Explore System</button>
+    </section>
+
+    <!-- PROBLEM SECTION -->
+    <section>
+        <p style="text-align:center; max-width:900px; margin:0 auto 50px; opacity:0.85;">
+            Despite massive investments in renewable infrastructure, many biogas plants underperform due to data blindness, inconsistent feedstock management, poor predictive planning, and lack of centralized intelligence. Without AI-driven forecasting, real-time
+            diagnostics, and geospatial optimization, plants operate reactively instead of proactively — leading to unstable methane yield, higher operational costs, and reduced long-term sustainability.
+        </p>
+
+        <div class="grid-4">
+            <div class="glass-card problem-card">
+                <div class="problem-icon">⚡</div>
+                <h3>Unpredictable Methane Yield</h3>
+                <p>Irregular gas output reduces efficiency and affects plant profitability.</p>
+            </div>
+
+            <div class="glass-card problem-card">
+                <div class="problem-icon">📡</div>
+                <h3>Lack of Real-Time Monitoring</h3>
+                <p>No live performance tracking leads to delayed corrective actions.</p>
+            </div>
+
+            <div class="glass-card problem-card">
+                <div class="problem-icon">🛠</div>
+                <h3>Poor Plant Health Diagnostics</h3>
+                <p>Equipment degradation goes unnoticed until system failure.</p>
+            </div>
+
+            <div class="glass-card problem-card">
+                <div class="problem-icon">🌐</div>
+                <h3>No Centralized Intelligence</h3>
+                <p>Disconnected plants operate without unified optimization.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SYSTEM OVERVIEW -->
+    <section id="overview">
+        <p style="text-align:center; max-width:900px; margin:0 auto 60px; opacity:0.9;">
+            GFIS (GreenFuel Intelligence System) is an AI-powered infrastructure planning and optimization framework designed to transform biogas operations from reactive systems into intelligent, data-driven ecosystems. By integrating predictive methane modeling,
+            real-time health monitoring, geospatial intelligence, and computer vision diagnostics into a unified command platform, GFIS enables proactive decision-making, performance optimization, and scalable renewable energy deployment.
+        </p>
+
+        <div class="grid-4">
+            <div class="glass-card solution-card">
+                <div class="solution-icon">📊</div>
+                <h3>Methane Yield Prediction</h3>
+                <p>AI models forecast methane output for better planning.</p>
+            </div>
+
+            <div class="glass-card solution-card">
+                <div class="solution-icon">📡</div>
+                <h3>Health Monitoring</h3>
+                <p>IoT sensors track plant conditions in real time.</p>
+            </div>
+
+            <div class="glass-card solution-card">
+                <div class="solution-icon">🗺️</div>
+                <h3>Geospatial Intelligence</h3>
+                <p>GIS-based mapping for infrastructure optimization.</p>
+            </div>
+
+            <div class="glass-card solution-card">
+                <div class="solution-icon">🤖</div>
+                <h3>Computer Vision Analysis</h3>
+                <p>AI-based plant diagnostics and anomaly detection.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMMAND CENTRE -->
+    <!-- COMMAND CENTRE -->
+    <section id="command">
+        <h2 class="section-title">🧠 GFIS Command Centre</h2>
+
+        <div class="dashboard-container">
+
+            <div class="dashboard-row">
+                <div class="dashboard-box">
+                    <h3>1️⃣ Methane Yield</h3>
+                    <p>Predictive analytics dashboard.</p>
+                    <img src="/images/methane.png" class="dashboard-img">
+                    <button onclick="window.open('https://gfis-v2-dashboard.streamlit.app/', '_blank')">
+                    Open Dashboard
+                </button>
+                </div>
+
+                <div class="dashboard-box">
+                    <h3>2️⃣ Health Monitoring</h3>
+                    <p>Live plant diagnostics dashboard.</p>
+                    <img src="/images/status.png" class="dashboard-img">
+                    <button onclick="window.open('https://taniishka21-biogas-health-monitoring-digestorstatus-gpjnen.streamlit.app/')">
+                    Open Dashboard
+                </button>
+                </div>
+            </div>
+
+            <div class="dashboard-row">
+                <div class="dashboard-box">
+                    <h3>3️⃣ Geospatial</h3>
+                    <p>GIS and infrastructure planning dashboard.</p>
+                    <img src="/images/geo.png" class="dashboard-img">
+                    <button onclick="window.open('https://aditi04122007-gfis-geospatial-gio3-fvobwz.streamlit.app/')">
+                    Open Dashboard
+                </button>
+                </div>
+
+                <div class="dashboard-box">
+                    <h3>4️⃣ Computer Vision</h3>
+                    <p>Plant inspection and anomaly detection system.</p>
+                    <img src="/images/cv.png" class="dashboard-img">
+                    <button onclick="window.open('https://hitanallianu2510-lgtm-gfis-cv-cv-module-wkknbd.streamlit.app/')">
+                    Open Dashboard
+                </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- IMPACT & CONTACT -->
+    <section id="impact">
+        <h2 style="text-align:center;margin-bottom:60px;">🌍 Impact of GFIS</h2>
+
+        <div class="grid-4">
+            <div class="glass-card solution-card">
+                <div class="solution-icon">📈</div>
+                <h3>30% ↑ Methane Yield</h3>
+                <p>Through optimized substrate mixing and AI-based prediction models.</p>
+            </div>
+
+            <div class="glass-card solution-card">
+                <div class="solution-icon">🏭</div>
+                <h3>High Scalability</h3>
+                <p>Designed for district and state-level infrastructure deployment.</p>
+            </div>
+
+            <div class="glass-card solution-card">
+                <div class="solution-icon">🌱</div>
+                <h3>↓ CO₂ Carbon Footprint</h3>
+                <p>Supports sustainable renewable energy practices.</p>
+            </div>
+
+            <div class="glass-card solution-card">
+                <div class="solution-icon">👷</div>
+                <h3>Rural Employment</h3>
+                <p>Encourages micro-enterprises and decentralized job creation.</p>
+            </div>
+            <div class="glass-card solution-card">
+                <div class="solution-icon">💰🌱</div>
+                <h3>Carbon Credits</h3>
+                <p>GFIS converts captured methane (CH₄) from biogas plants into verified carbon credits (CO₂e), transforming waste into climate-positive revenue.t.</p>
+            </div>
+            <div class="glass-card solution-card">
+                <div class="solution-icon">🌡️</div>
+                <h3>Climate Change</h3>
+                <p>GFIS contributes to India’s climate goals by preventing greenhouse gas emissions and replacing fossil fuels.</p>
+            </div>
+            <div class="glass-card solution-card">
+                <div class="solution-icon">🏛</div>
+                <h3>Policy Impact:</h3>
+                <p>GFIS provides real-time verified data to support government schemes like SATAT and GOBARdhan.</p>
+            </div>
+            <div class="glass-card solution-card">
+                <div class="solution-icon">👩‍🌾</div>
+                <h3>Social Impact:</h3>
+                <p>GFIS empowers rural communities with reliable energy, local jobs, and skill development.</p>
+            </div>
+
+        </div>
+
+        <div style="margin-top:80px;text-align:center;max-width:900px;margin-left:auto;margin-right:auto;">
+            <h3 style="margin-bottom:20px;">🚀 Long-Term Vision</h3>
+            <p>GFIS will evolve into a national AI-based renewable energy planning platform, integrating solar, biomass, and multi-source rural energy mapping for intelligent infrastructure expansion across India.</p>
+        </div>
+
+        <div style="margin-top:70px;text-align:center;">
+            <h3 style="margin-bottom:30px;">🤝 Key Stakeholders</h3>
+            <div class="grid-3">
+                <div class="glass-card solution-card">
+                    <div class="solution-icon">🏛</div>
+                    <h3>State Government</h3>
+                </div>
+
+                <div class="glass-card solution-card">
+                    <div class="solution-icon">⚡</div>
+                    <h3>Energy Departments</h3>
+                </div>
+
+                <div class="glass-card solution-card">
+                    <div class="solution-icon">🏢</div>
+                    <h3>Private Corporations</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-block">
+            <h3>Chatake Innoworks Pvt. Ltd.</h3>
+            <p>Email: admin@chatakeinnoworks.com</p>
+            <p>Phone: +91 8600182228</p>
+            <p>Address: Neharu Industrial Estate, Solapur, Maharashtra, India</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        © 2026 GFIS – GreenFuel Intelligence System <br> Developed under Chatake Innoworks Pvt. Ltd.
+    </footer>
+
+</body>
+
+</html>
